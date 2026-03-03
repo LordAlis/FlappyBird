@@ -3,11 +3,7 @@ using System.Media;
 
 namespace FlappyBird
 {
-    /// <summary>
-    /// Oyun ses efektlerini yükler ve yönetir.
-    /// GameEngine tarafından composition (has-a) ilişkisiyle kullanılır.
-    /// Kalıtım yerine bileşim tercih edilmiştir — AudioManager bir Entity değildir.
-    /// </summary>
+    // ses dosyalarini yukler, GameEngine icinde kullanilir (composition)
     public class AudioManager
     {
         private readonly SoundPlayer _wing;

@@ -11,11 +11,7 @@ namespace FlappyBird
         GameOver
     }
 
-    /// <summary>
-    /// Oyun mantığını, durumunu ve varlık yaşam döngüsünü yönetir.
-    /// AudioManager'ı composition ilişkisiyle içerir (has-a).
-    /// Form katmanından bağımsızdır — Graphics nesnesiyle ilgilenmez.
-    /// </summary>
+    // oyun mantigi burada, form'dan bagimsiz calisir
     public class GameEngine
     {
         public Bird Bird { get; private set; }
@@ -62,9 +58,6 @@ namespace FlappyBird
             IsNight = _rng.Next(2) == 1;
         }
 
-        /// <summary>
-        /// Her karede çağrılır. Oyun durumuna göre varlıkları günceller.
-        /// </summary>
         public void Tick()
         {
             _tick++;
@@ -82,9 +75,6 @@ namespace FlappyBird
             }
         }
 
-        /// <summary>
-        /// Kullanıcı girdisini işler. Oyun durumuna göre farklı davranır.
-        /// </summary>
         public void HandleInput()
         {
             switch (State)
@@ -112,7 +102,6 @@ namespace FlappyBird
             Bird.Update();
             Bird.ClampToTop();
 
-            // Polimorfik Update: her boru kendi hızıyla güncellenir
             foreach (var pipe in Pipes)
             {
                 pipe.Update();

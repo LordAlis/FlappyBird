@@ -2,11 +2,7 @@ using System.Drawing;
 
 namespace FlappyBird
 {
-    /// <summary>
-    /// Oyundaki tüm varlıklar için soyut temel sınıf.
-    /// Konum ve boyut bilgisini tutar; çizim ve güncelleme sözleşmelerini zorunlu kılar.
-    /// IRenderable ve IUpdatable arayüzlerini birleştirir.
-    /// </summary>
+    // Tum oyun nesnelerinin turetildigi temel sinif
     public abstract class Entity : IRenderable, IUpdatable
     {
         public float X { get; set; }

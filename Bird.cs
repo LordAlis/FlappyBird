@@ -3,11 +3,6 @@ using System.Drawing;
 
 namespace FlappyBird
 {
-    /// <summary>
-    /// Oyuncu tarafından kontrol edilen kuş varlığı.
-    /// Yerçekimi, kanat çırpma fiziği ve animasyon mantığını kapsüller.
-    /// Dış dünya yalnızca Flap() ile etkileşir — iç fizik gizlidir.
-    /// </summary>
     public class Bird : Entity
     {
         private float _velocity;
@@ -33,10 +28,6 @@ namespace FlappyBird
             _rotation = 0;
         }
 
-        /// <summary>
-        /// Kullanıcı girdisine yanıt: kanat çırpma.
-        /// Tek genel davranış metodu — iç fizik tamamen kapsüllenmiştir.
-        /// </summary>
         public void Flap()
         {
             _velocity = FlapImpulse;
@@ -50,9 +41,7 @@ namespace FlappyBird
             CycleAnimation();
         }
 
-        /// <summary>
-        /// Başlangıç ekranında kuşun hafifçe yukarı-aşağı sallanması.
-        /// </summary>
+        // baslangic ekraninda asagi yukari sallanma
         public void UpdateIdle(float baseY, int tick)
         {
             Y = baseY + (float)Math.Sin(tick * 0.12) * 8;
@@ -60,9 +49,6 @@ namespace FlappyBird
             CycleAnimation();
         }
 
-        /// <summary>
-        /// Tavana çarpma kısıtlaması. Fizik sınırı entity içinde yönetilir.
-        /// </summary>
         public void ClampToTop()
         {
             if (Y - Height / 2f < 0)
@@ -72,9 +58,6 @@ namespace FlappyBird
             }
         }
 
-        /// <summary>
-        /// Zemine temas kontrolü. Temas varsa konum düzeltilir.
-        /// </summary>
         public bool HitsGround(float groundY)
         {
             if (Y + Height / 2f >= groundY)
@@ -95,9 +78,7 @@ namespace FlappyBird
             g.Restore(saved);
         }
 
-        /// <summary>
-        /// Merkez bazlı hitbox. Adil oynanış için kenarlardan küçültülmüştür.
-        /// </summary>
+        // hitbox biraz kucultulmus, yoksa cok zor oluyor
         public override RectangleF GetBounds()
         {
             const float margin = 3f;

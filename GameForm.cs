@@ -6,10 +6,6 @@ using System.Windows.Forms;
 
 namespace FlappyBird
 {
-    /// <summary>
-    /// Oyun penceresi. Girdi yönetimi, zamanlayıcı ve görsel çizimden sorumludur.
-    /// Oyun mantığını GameEngine'e devreder — Separation of Concerns.
-    /// </summary>
     public class GameForm : Form
     {
         private new const float Scale = 2.0f;
@@ -97,10 +93,10 @@ namespace FlappyBird
             g.SmoothingMode = SmoothingMode.None;
             g.ScaleTransform(Scale, Scale);
 
+            // arkaplan
             Image bg = _engine.IsNight ? _bgNight : _bgDay;
             g.DrawImage(bg, 0, 0, GameEngine.GameWidth, GameEngine.GameHeight);
 
-            // Polimorfik Draw çağrıları — her varlık kendini çizer
             foreach (var pipe in _engine.Pipes)
                 pipe.Draw(g);
 

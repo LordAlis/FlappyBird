@@ -2,10 +2,6 @@ using System.Drawing;
 
 namespace FlappyBird
 {
-    /// <summary>
-    /// Sürekli kayan zemin varlığı.
-    /// Tek bir sprite'ı yatayda tekrarlayarak sonsuz kaydırma efekti oluşturur.
-    /// </summary>
     public class ScrollingGround : Entity
     {
         private readonly Image _image;
@@ -31,6 +27,7 @@ namespace FlappyBird
                 _scrollOffset += _image.Width;
         }
 
+        // zemini yan yana tekrarlayarak sonsuz scroll efekti
         public override void Draw(Graphics g)
         {
             for (float x = _scrollOffset; x < _gameWidth + _image.Width; x += _image.Width)

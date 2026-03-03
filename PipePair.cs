@@ -2,11 +2,7 @@ using System.Drawing;
 
 namespace FlappyBird
 {
-    /// <summary>
-    /// Üst ve alt boruları tek bir varlık olarak kapsüller.
-    /// X sol kenarı, GapCenterY boşluğun dikey merkezini temsil eder.
-    /// Kendi kendini çizer ve sınır kutuları sağlar.
-    /// </summary>
+    // ust ve alt boruyu tek class olarak yonetir
     public class PipePair : Entity
     {
         public float GapCenterY { get; private set; }
@@ -38,6 +34,7 @@ namespace FlappyBird
             float gapTop = GapCenterY - GapSize / 2f;
             float gapBottom = GapCenterY + GapSize / 2f;
 
+            // ust boru (ters cevirilmis hali)
             g.DrawImage(_pipeTop,
                 X, gapTop - _pipeTop.Height,
                 PipeWidth, _pipeTop.Height);
