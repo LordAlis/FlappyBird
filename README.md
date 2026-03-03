@@ -1,93 +1,68 @@
-# Flappy Bird
+# Flappy Bird — C# WinForms
 
-A Flappy Bird clone built with C# and WinForms, developed as a weekly assignment for the **YMT-218 Object-Oriented Programming** course.
+Weekly assignment for **YMT-218 Object-Oriented Programming**.
 
-![Gameplay Screenshot](screenshot.png)
+![Gameplay](screenshot.png)
 
----
+## About
 
-## Technologies
+A 2D Flappy Bird clone written in C# using WinForms and GDI+ for rendering. The bird flaps with spacebar or mouse click, pipes scroll from right to left, and each gap cleared earns a point. The game features day/night backgrounds picked at random, sprite-based score display, and original sound effects.
 
-| Technology             | Purpose                          |
-| ---------------------- | -------------------------------- |
-| C# (.NET 8)            | Core programming language        |
-| WinForms               | Game window and event handling   |
-| GDI+ (System.Drawing)  | 2D rendering and sprite drawing  |
-| System.Media           | Sound effect playback            |
-| Git                    | Version control                  |
+## Features
 
----
+- 60 FPS game loop with double-buffered rendering
+- 2x pixel scaling for crisp retro visuals
+- Wing animation (3-frame cycle), rotation based on velocity
+- Randomized pipe gaps and day/night backgrounds
+- Collision detection with reduced hitbox for fair gameplay
+- High score tracking across rounds
+- Sound effects: flap, score, hit, die, swoosh
 
-## OOP Structure
-
-The project follows a layered OOP architecture where every game object inherits from a shared abstract base, and non-visual systems are composed rather than inherited.
-
-### Class Hierarchy
+## Project Structure
 
 ```
-IRenderable       IUpdatable
-    └──────┬──────────┘
-        Entity  (abstract)
-          ├── Bird
-          ├── PipePair
-          └── ScrollingGround
-
-AudioManager      (standalone — composed inside GameEngine)
-GameEngine        (standalone — orchestrates game logic)
-GameState         (enum — Ready, Playing, GameOver)
-GameForm          (window, rendering, input)
+FlappyBird/
+├── Program.cs              → Entry point
+├── GameForm.cs             → Window, input events, rendering
+├── GameEngine.cs           → Game loop logic, scoring, collisions
+├── Entity.cs               → Abstract base (implements IRenderable + IUpdatable)
+├── Bird.cs                 → Player entity — physics, animation
+├── PipePair.cs             → Top + bottom pipe as a single unit
+├── ScrollingGround.cs      → Looping ground tile
+├── AudioManager.cs         → Sound loading and playback
+├── IRenderable.cs          → Draw contract
+├── IUpdatable.cs           → Update contract
+└── Assets/
+    ├── sprites/            → Bird, pipe, background, digit sprites
+    └── audio/              → wav sound effects
 ```
 
-### OOP Principles Used
+## Design Decisions
 
-**Abstraction & Inheritance**
-`Entity` is an abstract base class holding common properties (`X`, `Y`, `Width`, `Height`) and defining abstract `Update()` and `Draw()` methods. `Bird`, `PipePair`, and `ScrollingGround` each extend it with their own behavior.
+The game is split into three layers. **GameForm** only handles the window, user input, and drawing. It delegates all logic to **GameEngine**, which manages state transitions, pipe spawning, and collision checks. The actual game objects (**Bird**, **PipePair**, **ScrollingGround**) each inherit from **Entity** and know how to update and draw themselves.
 
-**Encapsulation**
-Internal state is kept private. For instance, `Bird._velocity` and `Bird._rotation` cannot be accessed from outside — the only public action is `Flap()`. Ground collision and ceiling clamping are also handled internally by the Bird class itself (`HitsGround()`, `ClampToTop()`).
+**AudioManager** doesn't inherit from Entity because it has no position or visual — it sits inside GameEngine as a regular field. This is a deliberate choice: sound management is a "has-a" relationship, not an "is-a".
 
-**Polymorphism**
-`GameForm` iterates over a collection of pipes and calls `Draw()` on each one. Every `Entity` subclass responds to the same interface but renders itself differently.
+Bird keeps its velocity and rotation private. Outside code can only call `Flap()` — everything else (gravity, terminal velocity, ceiling clamp, ground detection) is handled internally.
 
-**Interfaces**
-`IRenderable` and `IUpdatable` define independent contracts. An object can be drawable without needing update logic, or vice versa — keeping things flexible.
+## Built With
 
-**Composition over Inheritance**
-`AudioManager` is not an `Entity` — it has no position or sprite. Instead, it lives inside `GameEngine` as a field (has-a relationship), handling all sound effects without being part of the visual hierarchy.
+- C# / .NET 8
+- WinForms + GDI+ (System.Drawing)
+- System.Media for audio
 
-**Separation of Concerns**
-Each class has a single responsibility:
+## How to Run
 
-- `Bird` — gravity, flapping, rotation, animation
-- `PipePair` — manages top and bottom pipes as a single unit
-- `ScrollingGround` — infinite horizontal scrolling
-- `AudioManager` — loads and plays sound effects
-- `GameEngine` — state management, scoring, collision detection, pipe spawning
-- `GameForm` — window setup, user input, rendering loop
+Requires [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) on Windows.
 
----
-
-## How to Play
-
-- Press **Space** / **Up Arrow** or **click** to flap
-- Navigate through the gaps between pipes
-- Each pipe passed = +1 point
-- Avoid hitting pipes and the ground
-
----
-
-## Running the Project
-
-Make sure you have [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) installed.
-
-```bash
+```
 git clone https://github.com/LordAlis/FlappyBird.git
 cd FlappyBird
 dotnet run
 ```
 
----
+Controls: **Space** / **Up** / **Mouse click** to flap. Click to restart after game over.
 
-## Assets
+## Credits
 
-Sprites and audio from [samuelcust/flappy-bird-assets](https://github.com/samuelcust/flappy-bird-assets) (MIT License).
+Sprites and audio: [samuelcust/flappy-bird-assets](https://github.com/samuelcust/flappy-bird-assets) (MIT)
